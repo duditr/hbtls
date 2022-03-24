@@ -62,10 +62,7 @@ mod! QUEUE(E :: TRIVerr) {
   eq del(empty,Y) = empty .
   eq del(X Q,Y) = (if X = Y then Q else X del(Q,Y) fi) .
   -- Lemmas
-  eq X \in enq(Q,Y) = (if X = Y then true else X \in Q fi) .
-  ceq X \in del(enq(Q,X),X) = false if not X \in Q .
-  ceq X \in del(enq(Q,Y),X) = X \in del(Q,X) if not X = Y .
-  ceq X \in del(Q,X) = false if not X \in Q .
+  ceq top(enq(Q,X)) = top(Q) if not(Q = empty) .
 }
 
 view TRIVerr2PID from TRIVerr to PID {
@@ -83,8 +80,6 @@ mod* QLOCK {
   op init : -> Sys {constr}
 -- transitions
   ops want try exit : Sys Pid -> Sys {constr}
-  -- op try  : Sys Pid -> Sys {constr}
-  -- op exit : Sys Pid -> Sys {constr}
 -- observations
   op pc    : Sys Pid -> Label
   op queue : Sys -> Queue
